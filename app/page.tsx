@@ -75,6 +75,7 @@ export default function LandingPage() {
   const projects = [
     {
       id: 1,
+      slug: "e-commerce-platform",
       title: "E-Commerce Platform",
       description: "A full-stack e-commerce platform with payment integration and admin dashboard.",
       image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1470&auto=format&fit=crop",
@@ -85,6 +86,7 @@ export default function LandingPage() {
     },
     {
       id: 2,
+      slug: "ai-image-generator",
       title: "AI Image Generator",
       description: "Web app that generates images based on text prompts using AI models.",
       image: "https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1528&auto=format&fit=crop",
@@ -95,6 +97,7 @@ export default function LandingPage() {
     },
     {
       id: 3,
+      slug: "fitness-tracker",
       title: "Fitness Tracker",
       description: "Mobile app for tracking workouts, nutrition, and fitness progress.",
       image: "https://images.unsplash.com/photo-1510440777527-38815cfc6cc2?q=80&w=1470&auto=format&fit=crop",
@@ -105,6 +108,7 @@ export default function LandingPage() {
     },
     {
       id: 4,
+      slug: "weather-dashboard",
       title: "Weather Dashboard",
       description: "Real-time weather dashboard with forecasts and historical data.",
       image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=1470&auto=format&fit=crop",
@@ -445,40 +449,40 @@ export default function LandingPage() {
 
             <div className="mt-8">
               <Tabs defaultValue="all" className="w-full">
-                <div className="flex justify-center mb-16">
-                  <TabsList className="grid grid-cols-3 md:grid-cols-5 gap-2 w-full max-w-xl">
+                <div className="flex justify-center mb-8 md:mb-12">
+                  <TabsList className="flex flex-wrap justify-center gap-2 md:gap-4 h-auto w-full bg-transparent p-0">
                     <TabsTrigger
                       value="all"
                       onClick={() => setActiveFilter("all")}
-                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground dark:data-[state=active]:bg-blue-600"
+                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
                     >
                       All
                     </TabsTrigger>
                     <TabsTrigger
                       value="frontend"
                       onClick={() => setActiveFilter("frontend")}
-                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground dark:data-[state=active]:bg-blue-600"
+                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
                     >
                       Frontend
                     </TabsTrigger>
                     <TabsTrigger
                       value="fullstack"
                       onClick={() => setActiveFilter("fullstack")}
-                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground dark:data-[state=active]:bg-blue-600"
+                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
                     >
                       Full Stack
                     </TabsTrigger>
                     <TabsTrigger
                       value="mobile"
                       onClick={() => setActiveFilter("mobile")}
-                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground dark:data-[state=active]:bg-blue-600"
+                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
                     >
                       Mobile
                     </TabsTrigger>
                     <TabsTrigger
                       value="ai"
                       onClick={() => setActiveFilter("ai")}
-                      className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground dark:data-[state=active]:bg-blue-600"
+                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
                     >
                       AI
                     </TabsTrigger>
@@ -729,15 +733,21 @@ function ProjectCard({ project }) {
             </div>
           </div>
         </div>
-        <CardContent className="p-4">
+<CardContent className="p-4">
           <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-4">
             {project.tags.map((tag, index) => (
               <Badge key={index} variant="secondary" className="bg-muted">
                 {tag}
               </Badge>
             ))}
           </div>
+          <Link href={`/projects/${project.slug}`}>
+            <Button variant="outline" className="w-full gap-2" size="sm">
+              View details
+              <ArrowRight className="h-3 w-3" />
+            </Button>
+          </Link>
         </CardContent>
       </Card>
     </motion.div>

@@ -185,9 +185,9 @@ export default function ProjectsPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full md:w-auto">
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="flex-[2] md:flex-none md:w-[180px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -200,7 +200,7 @@ export default function ProjectsPage() {
               </Select>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="gap-2">
+                  <Button variant="outline" className="flex-[1] md:flex-none gap-2">
                     <Filter className="h-4 w-4" />
                     Sort by
                   </Button>
@@ -279,7 +279,7 @@ function ProjectCard({ project }) {
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent dark:from-zinc-900/80"></div>
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
             <h3 className="font-bold text-lg text-white drop-shadow-md">{project.title}</h3>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full md:w-auto">
               {project.github && (
                 <Button
                   size="icon"
