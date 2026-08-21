@@ -10,7 +10,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <Code className="h-6 w-6 text-primary dark:text-blue-400" />
-              <span className="font-bold text-lg">DevPortfolio</span>
+              <span className="font-bold text-lg">Twilight Techy</span>
             </Link>
             <p className="text-muted-foreground text-sm">Building digital experiences that make a difference.</p>
             <div className="flex gap-4">
@@ -83,7 +83,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} DevPortfolio. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Twilight Techy. All rights reserved.</p>
         </div>
       </div>
     </footer>

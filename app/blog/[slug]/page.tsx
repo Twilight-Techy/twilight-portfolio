@@ -198,7 +198,7 @@ export default function BlogPostPage() {
             <motion.div initial={{ rotate: -10 }} animate={{ rotate: 0 }} transition={{ duration: 0.5 }}>
               <Code className="h-8 w-8 text-primary dark:text-blue-400" />
             </motion.div>
-            <span className="font-bold text-xl">DevPortfolio</span>
+            <span className="font-bold text-xl">Twilight Techy</span>
           </Link>
 
           <Link href="/blog">
@@ -362,7 +362,7 @@ export default function BlogPostPage() {
                 <div>
                   <h3 className="text-xl font-bold mb-2">John Doe</h3>
                   <p className="text-muted-foreground mb-4">
-                    Full-stack developer passionate about building beautiful and functional web applications.
+                    Software Engineer passionate about building beautiful and functional web applications.
                     Specializing in React, Next.js, and modern JavaScript.
                   </p>
                   <div className="flex gap-2">

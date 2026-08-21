@@ -45,7 +45,7 @@ export async function submitContactForm(prevState: ContactFormState, formData: F
   const { name, email, subject, message } = validatedFields.data
 
   try {
-    // For v0 preview, just log the data and simulate success
+    // For preview, just log the data and simulate success
     console.log("Contact form submission:", {
       name,
       email,

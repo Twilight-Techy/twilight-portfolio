@@ -22,7 +22,7 @@ export function Navbar() {
           <motion.div initial={{ rotate: -10 }} animate={{ rotate: 0 }} transition={{ duration: 0.5 }}>
             <Code className="h-8 w-8 text-primary dark:text-blue-400" />
           </motion.div>
-          <span className="font-bold text-xl">DevPortfolio</span>
+          <span className="font-bold text-xl">Twilight Techy</span>
         </Link>
 
         <div className="flex items-center gap-2">

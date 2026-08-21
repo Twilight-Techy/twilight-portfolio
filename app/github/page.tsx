@@ -39,7 +39,7 @@ const mockUserData = {
   login: "johndoe",
   name: "John Doe",
   avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374&auto=format&fit=crop",
-  bio: "Full-stack developer passionate about building beautiful and functional web applications.",
+  bio: "Software Engineer passionate about building beautiful and functional web applications.",
   company: "@awesome-company",
   location: "San Francisco, CA",
   blog: "https://johndoe.dev",
@@ -290,7 +290,7 @@ export default function GitHubPage() {
             <motion.div initial={{ rotate: -10 }} animate={{ rotate: 0 }} transition={{ duration: 0.5 }}>
               <Code className="h-8 w-8 text-primary dark:text-blue-400" />
             </motion.div>
-            <span className="font-bold text-xl">DevPortfolio</span>
+            <span className="font-bold text-xl">Twilight Techy</span>
           </Link>
 
           <div className="flex items-center gap-2">

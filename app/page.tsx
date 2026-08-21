@@ -135,7 +135,7 @@ export default function LandingPage() {
             <motion.div initial={{ rotate: -10 }} animate={{ rotate: 0 }} transition={{ duration: 0.5 }}>
               <Code className="h-8 w-8 text-primary dark:text-blue-400" />
             </motion.div>
-            <span className="font-bold text-xl">DevPortfolio</span>
+            <span className="font-bold text-xl">Twilight Techy</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -250,7 +250,7 @@ export default function LandingPage() {
                   variant="outline"
                   className="px-4 py-1 text-sm bg-primary/10 text-primary dark:bg-blue-500/10 dark:text-blue-400 border-primary/20 dark:border-blue-500/20"
                 >
-                  Full-Stack Developer
+                  Software Engineer
                 </Badge>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                   Crafting Digital <span className="text-primary dark:text-blue-400">Experiences</span> That Matter
@@ -357,7 +357,7 @@ export default function LandingPage() {
                   Hi, I'm <span className="text-primary dark:text-blue-400">John Doe</span>
                 </h3>
                 <p className="text-muted-foreground">
-                  I'm a passionate full-stack developer with over 5 years of experience building web applications. I
+                  I'm a passionate Software Engineer with over 5 years of experience building web applications. I
                   specialize in JavaScript technologies across the stack and have a strong foundation in modern
                   frameworks.
                 </p>
@@ -568,7 +568,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Email</h4>
-                      <p className="text-muted-foreground">hello@example.com</p>
+                      <a href="mailto:hello@example.com" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">hello@example.com</a>
                     </div>
                   </div>
 
@@ -578,7 +578,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold">LinkedIn</h4>
-                      <p className="text-muted-foreground">linkedin.com/in/johndoe</p>
+                      <a href="https://linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">linkedin.com/in/johndoe</a>
                     </div>
                   </div>
 
@@ -588,7 +588,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold">GitHub</h4>
-                      <p className="text-muted-foreground">github.com/johndoe</p>
+                      <a href="https://github.com/johndoe" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">github.com/johndoe</a>
                     </div>
                   </div>
                 </div>
