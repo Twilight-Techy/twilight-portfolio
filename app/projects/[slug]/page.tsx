@@ -21,6 +21,7 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -224,7 +225,7 @@ export default function ProjectDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100">
+    <div className="flex flex-col min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100">
       {/* Header */}
       <header className="bg-background dark:bg-zinc-900 border-b border-border sticky top-0 z-10 backdrop-blur-md bg-opacity-80 dark:bg-opacity-80">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -238,13 +239,12 @@ export default function ProjectDetailPage() {
           <Link href="/projects">
             <Button variant="ghost" className="gap-2">
               <ChevronLeft className="h-4 w-4" />
-              All Projects
-            </Button>
+              <span className="hidden sm:inline">All Projects</span></Button>
           </Link>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8">
         {isLoading ? (
           <ProjectDetailSkeleton />
         ) : project ? (
@@ -610,7 +610,7 @@ export default function ProjectDetailPage() {
             </div>
           </div>
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center flex flex-col items-center justify-center min-h-[60vh]">
             <Layers className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">Project not found</h3>
             <p className="text-muted-foreground mb-4">
@@ -623,14 +623,7 @@ export default function ProjectDetailPage() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-muted dark:bg-zinc-800 py-6 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} DevPortfolio. All rights reserved.
-          </p>
-        </div>
-      </footer>
+<Footer />
     </div>
   )
 }

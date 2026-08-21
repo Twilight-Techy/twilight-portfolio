@@ -1,4 +1,5 @@
 import type React from "react"
+import { Suspense } from "react"
 import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollRestoration } from "@/components/scroll-restoration"
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" storageKey="portfolio-theme">
-          <ScrollRestoration />
+          <Suspense fallback={null}>
+            <ScrollRestoration />
+          </Suspense>
           {children}
         </ThemeProvider>
       </body>

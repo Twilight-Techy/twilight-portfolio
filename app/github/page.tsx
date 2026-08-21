@@ -24,6 +24,7 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Footer } from "@/components/footer"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -281,7 +282,7 @@ export default function GitHubPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100">
+    <div className="flex flex-col min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100">
       {/* Header */}
       <header className="bg-background dark:bg-zinc-900 border-b border-border sticky top-0 z-10 backdrop-blur-md bg-opacity-80 dark:bg-opacity-80">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -296,8 +297,7 @@ export default function GitHubPage() {
             <Link href="/">
               <Button variant="ghost" className="gap-2">
                 <ChevronLeft className="h-4 w-4" />
-                Back to Home
-              </Button>
+                <span className="hidden sm:inline">Back to Home</span></Button>
             </Link>
             <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -306,7 +306,7 @@ export default function GitHubPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Left Column - Profile */}
           <div className="w-full md:w-1/3 space-y-6">
@@ -669,14 +669,7 @@ export default function GitHubPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-muted dark:bg-zinc-800 py-6 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} DevPortfolio. GitHub data is refreshed periodically.
-          </p>
-        </div>
-      </footer>
+<Footer />
     </div>
   )
 }

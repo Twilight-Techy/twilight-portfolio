@@ -20,6 +20,8 @@ import {
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -167,38 +169,10 @@ export default function BlogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100">
-      {/* Header */}
-      <header className="bg-background dark:bg-zinc-900 border-b border-border sticky top-0 z-10 backdrop-blur-md bg-opacity-80 dark:bg-opacity-80">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <motion.div initial={{ rotate: -10 }} animate={{ rotate: 0 }} transition={{ duration: 0.5 }}>
-              <Code className="h-8 w-8 text-primary dark:text-blue-400" />
-            </motion.div>
-            <span className="font-bold text-xl">DevPortfolio</span>
-          </Link>
+    <div className="flex flex-col min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100">
+<Navbar />
 
-          <div className="flex items-center gap-2">
-            <Link href="/">
-              <Button variant="ghost" className="gap-2">
-                <Home className="h-4 w-4" />
-                Home
-              </Button>
-            </Link>
-            <a href="https://github.com/johndoe" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="gap-2">
-                <Github className="h-4 w-4" />
-                GitHub
-              </Button>
-            </a>
-            <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="mb-12">
           <div className="text-center space-y-4 max-w-3xl mx-auto">
@@ -376,14 +350,7 @@ export default function BlogPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-muted dark:bg-zinc-800 py-6 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} DevPortfolio. All articles are written by John Doe.
-          </p>
-        </div>
-      </footer>
+<Footer />
     </div>
   )
 }

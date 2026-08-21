@@ -18,6 +18,14 @@ import {
   User,
   Home,
   FileText,
+  Layers,
+  FileCode,
+  Paintbrush,
+  Server,
+  Zap,
+  Database,
+  Download,
+  ArrowRight
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -25,6 +33,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ContactForm } from "@/components/contact-form"
+import { Footer } from "@/components/footer"
 import { useTheme } from "@/components/theme-provider"
 
 export default function LandingPage() {
@@ -32,9 +41,11 @@ export default function LandingPage() {
   const [activeSection, setActiveSection] = useState("home")
   const [scrollY, setScrollY] = useState(0)
   const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   // Handle scroll events to update active section and scroll position
   useEffect(() => {
+    setMounted(true)
     const handleScroll = () => {
       setScrollY(window.scrollY)
 
@@ -110,10 +121,10 @@ export default function LandingPage() {
     activeFilter === "all" ? projects : projects.filter((project) => project.category === activeFilter)
 
   return (
-    <div className="min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100 overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-background text-foreground dark:bg-zinc-900 dark:text-zinc-100 overflow-x-hidden">
       {/* Navbar */}
       <header
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrollY > 50 ? "bg-background/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-md" : "bg-transparent"}`}
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrollY > 50 || isMenuOpen ? "bg-background/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-md" : "bg-transparent"}`}
       >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
@@ -158,14 +169,14 @@ export default function LandingPage() {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="ml-2"
             >
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              {mounted ? (theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Sun className="h-5 w-5" />}
             </Button>
           </nav>
 
           {/* Mobile Navigation Toggle */}
           <div className="md:hidden flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              {mounted ? (theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Sun className="h-5 w-5" />}
             </Button>
             <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -180,7 +191,7 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden bg-background dark:bg-zinc-800 border-b border-border"
+            className="md:hidden border-b border-border bg-transparent"
           >
             <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
               <MobileNavLink href="#home" onClick={() => setIsMenuOpen(false)} icon={<Home className="h-4 w-4" />}>
@@ -220,16 +231,16 @@ export default function LandingPage() {
         )}
       </header>
 
-      <main>
+      <main className="flex-1">
         {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center pt-16">
+        <section id="home" className="min-h-[100dvh] flex items-center pt-20 md:pt-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="space-y-6"
+                className="space-y-3 md:space-y-6"
               >
                 <Badge
                   variant="outline"
@@ -253,8 +264,7 @@ export default function LandingPage() {
                       document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
                     }}
                   >
-                    View My Work
-                  </Button>
+                    <ArrowRight className="h-4 w-4 mr-2" />View My Work</Button>
                   <Button
                     size="lg"
                     variant="outline"
@@ -263,8 +273,7 @@ export default function LandingPage() {
                       document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
                     }}
                   >
-                    Contact Me
-                  </Button>
+                    <Mail className="h-4 w-4 mr-2" />Contact Me</Button>
                 </div>
                 <div className="flex gap-4 pt-4">
                   <Button variant="ghost" size="icon" className="rounded-full" asChild>
@@ -356,24 +365,28 @@ export default function LandingPage() {
                 <div className="grid grid-cols-2 gap-4 pt-4">
                   <div>
                     <h4 className="font-semibold mb-2">Frontend</h4>
-                    <ul className="space-y-1">
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                    <ul className="space-y-2">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <Code className="h-3 w-3" />
                           React
                         </Badge>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <Layers className="h-3 w-3" />
                           Next.js
                         </Badge>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <FileCode className="h-3 w-3" />
                           TypeScript
                         </Badge>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <Paintbrush className="h-3 w-3" />
                           Tailwind CSS
                         </Badge>
                       </li>
@@ -381,24 +394,28 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-2">Backend</h4>
-                    <ul className="space-y-1">
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                    <ul className="space-y-2">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <Server className="h-3 w-3" />
                           Node.js
                         </Badge>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <Zap className="h-3 w-3" />
                           Express
                         </Badge>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <Database className="h-3 w-3" />
                           MongoDB
                         </Badge>
                       </li>
-                      <li className="flex items-center gap-2">
-                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30">
+                      <li>
+                        <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
+                          <Database className="h-3 w-3" />
                           PostgreSQL
                         </Badge>
                       </li>
@@ -413,8 +430,7 @@ export default function LandingPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Download Resume
-                    </a>
+                      <Download className="h-4 w-4 mr-2" />Download Resume</a>
                   </Button>
                 </div>
               </motion.div>
@@ -587,152 +603,7 @@ export default function LandingPage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-muted dark:bg-zinc-800 py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <Link href="/" className="flex items-center gap-2">
-                <Code className="h-6 w-6 text-primary dark:text-blue-400" />
-                <span className="font-bold text-lg">DevPortfolio</span>
-              </Link>
-              <p className="text-muted-foreground text-sm">Building digital experiences that make a difference.</p>
-              <div className="flex gap-4">
-                <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" asChild>
-                  <a href="https://github.com/johndoe" target="_blank" rel="noopener noreferrer">
-                    <Github className="h-4 w-4" />
-                    <span className="sr-only">GitHub</span>
-                  </a>
-                </Button>
-                <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" asChild>
-                  <a href="https://linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="h-4 w-4" />
-                    <span className="sr-only">LinkedIn</span>
-                  </a>
-                </Button>
-                <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" asChild>
-                  <a href="mailto:hello@example.com">
-                    <Mail className="h-4 w-4" />
-                    <span className="sr-only">Email</span>
-                  </a>
-                </Button>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="#home"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      document.getElementById("home")?.scrollIntoView({ behavior: "smooth" })
-                    }}
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#about"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })
-                    }}
-                  >
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#projects"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
-                    }}
-                  >
-                    Projects
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#contact"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
-                    }}
-                  >
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Pages</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/github"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
-                    GitHub
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/projects"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
-                    All Projects
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/cookies"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
-                    Cookie Policy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} DevPortfolio. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+<Footer />
     </div>
   )
 }
