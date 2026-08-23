@@ -11,6 +11,9 @@ export const metadata = {
   title: "Twilight Techy - Software Engineer Portfolio",
   description: "A modern portfolio website showcasing full-stack development projects and skills",
   creator: "Ibrahim Makanjuola (Twilight Techy)",
+  icons: {
+    icon: "/icon.svg",
+  },
 }
 
 export default function RootLayout({

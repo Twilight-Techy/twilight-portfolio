@@ -25,7 +25,8 @@ import {
   Zap,
   Database,
   Download,
-  ArrowRight
+  ArrowRight,
+  Twitter
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -35,6 +36,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ContactForm } from "@/components/contact-form"
 import { Footer } from "@/components/footer"
 import { useTheme } from "@/components/theme-provider"
+import { projects } from "@/data/projects"
 
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -71,53 +73,7 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Project data
-  const projects = [
-    {
-      id: 1,
-      slug: "e-commerce-platform",
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce platform with payment integration and admin dashboard.",
-      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1470&auto=format&fit=crop",
-      tags: ["React", "Node.js", "MongoDB", "Stripe"],
-      category: "fullstack",
-      link: "https://ecommerce-demo.vercel.app",
-      github: "https://github.com/johndoe/ecommerce-platform",
-    },
-    {
-      id: 2,
-      slug: "ai-image-generator",
-      title: "AI Image Generator",
-      description: "Web app that generates images based on text prompts using AI models.",
-      image: "https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1528&auto=format&fit=crop",
-      tags: ["Next.js", "OpenAI", "TailwindCSS", "TypeScript"],
-      category: "ai",
-      link: "https://ai-image-generator-demo.vercel.app",
-      github: "https://github.com/johndoe/ai-image-generator",
-    },
-    {
-      id: 3,
-      slug: "fitness-tracker",
-      title: "Fitness Tracker",
-      description: "Mobile app for tracking workouts, nutrition, and fitness progress.",
-      image: "https://images.unsplash.com/photo-1510440777527-38815cfc6cc2?q=80&w=1470&auto=format&fit=crop",
-      tags: ["React Native", "Firebase", "Redux", "Expo"],
-      category: "mobile",
-      link: "https://fitness-tracker-demo.vercel.app",
-      github: "https://github.com/johndoe/fitness-tracker",
-    },
-    {
-      id: 4,
-      slug: "weather-dashboard",
-      title: "Weather Dashboard",
-      description: "Real-time weather dashboard with forecasts and historical data.",
-      image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=1470&auto=format&fit=crop",
-      tags: ["Vue.js", "WeatherAPI", "Chart.js", "SCSS"],
-      category: "frontend",
-      link: "https://weather-dashboard-demo.vercel.app",
-      github: "https://github.com/johndoe/weather-dashboard",
-    },
-  ]
+  // Project data imported from @/data/projects
 
   // Filter projects
   const [activeFilter, setActiveFilter] = useState("all")
@@ -281,19 +237,25 @@ export default function LandingPage() {
                 </div>
                 <div className="flex gap-4 pt-4">
                   <Button variant="ghost" size="icon" className="rounded-full" asChild>
-                    <a href="https://github.com/johndoe" target="_blank" rel="noopener noreferrer">
+                    <a href="https://github.com/Twilight-Techy" target="_blank" rel="noopener noreferrer">
                       <Github className="h-5 w-5" />
                       <span className="sr-only">GitHub</span>
                     </a>
                   </Button>
                   <Button variant="ghost" size="icon" className="rounded-full" asChild>
-                    <a href="https://linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.linkedin.com/in/ibrahim-makanjuola/" target="_blank" rel="noopener noreferrer">
                       <Linkedin className="h-5 w-5" />
                       <span className="sr-only">LinkedIn</span>
                     </a>
                   </Button>
                   <Button variant="ghost" size="icon" className="rounded-full" asChild>
-                    <a href="mailto:hello@example.com">
+                    <a href="https://x.com/iMaksxAI" target="_blank" rel="noopener noreferrer">
+                      <Twitter className="h-5 w-5" />
+                      <span className="sr-only">X (Twitter)</span>
+                    </a>
+                  </Button>
+                  <Button variant="ghost" size="icon" className="rounded-full" asChild>
+                    <a href="mailto:mzone7325@gmail.com">
                       <Mail className="h-5 w-5" />
                       <span className="sr-only">Email</span>
                     </a>
@@ -337,8 +299,8 @@ export default function LandingPage() {
               >
                 <div className="relative w-full h-[400px] rounded-lg overflow-hidden border-4 border-background dark:border-zinc-800 shadow-xl">
                   <Image
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374&auto=format&fit=crop"
-                    alt="Portrait"
+                    src="/images/profile.png"
+                    alt="Ibrahim Makanjuola"
                     fill
                     className="object-cover"
                   />
@@ -354,7 +316,7 @@ export default function LandingPage() {
                 className="space-y-6"
               >
                 <h3 className="text-2xl font-bold">
-                  Hi, I'm <span className="text-primary dark:text-blue-400">John Doe</span>
+                  Hi, I'm <span className="text-primary dark:text-blue-400">Ibrahim Makanjuola</span>
                 </h3>
                 <p className="text-muted-foreground">
                   I'm a passionate Software Engineer with over 5 years of experience building web applications. I
@@ -568,7 +530,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Email</h4>
-                      <a href="mailto:hello@example.com" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">hello@example.com</a>
+                      <a href="mailto:mzone7325@gmail.com" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">mzone7325@gmail.com</a>
                     </div>
                   </div>
 
@@ -578,7 +540,17 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold">LinkedIn</h4>
-                      <a href="https://linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">linkedin.com/in/johndoe</a>
+                      <a href="https://www.linkedin.com/in/ibrahim-makanjuola/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">linkedin.com/in/ibrahim-makanjuola</a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary/10 dark:bg-blue-600/10 p-3 rounded-full">
+                      <Twitter className="h-6 w-6 text-primary dark:text-blue-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">X (Twitter)</h4>
+                      <a href="https://x.com/iMaksxAI" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">@iMaksxAI</a>
                     </div>
                   </div>
 
@@ -588,7 +560,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <h4 className="font-semibold">GitHub</h4>
-                      <a href="https://github.com/johndoe" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">github.com/johndoe</a>
+                      <a href="https://github.com/Twilight-Techy" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary dark:hover:text-blue-400 transition-colors">github.com/Twilight-Techy</a>
                     </div>
                   </div>
                 </div>

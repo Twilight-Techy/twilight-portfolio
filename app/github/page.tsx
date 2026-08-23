@@ -36,19 +36,19 @@ import { useTheme } from "@/components/theme-provider"
 
 // Mock GitHub data (would be replaced with actual API calls)
 const mockUserData = {
-  login: "johndoe",
+  login: "Twilight-Techy",
   name: "John Doe",
   avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374&auto=format&fit=crop",
   bio: "Software Engineer passionate about building beautiful and functional web applications.",
   company: "@awesome-company",
   location: "San Francisco, CA",
   blog: "https://johndoe.dev",
-  twitter_username: "johndoe",
+  twitter_username: "iMaksxAI",
   public_repos: 42,
   followers: 256,
   following: 128,
   created_at: "2015-01-01T00:00:00Z",
-  html_url: "https://github.com/johndoe",
+  html_url: "https://github.com/Twilight-Techy",
 }
 
 const mockRepos = [

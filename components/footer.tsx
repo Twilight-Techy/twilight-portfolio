@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Code, Github, Linkedin, Mail } from "lucide-react"
+import { Code, Github, Linkedin, Mail, Twitter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Footer() {
@@ -15,19 +15,25 @@ export function Footer() {
             <p className="text-muted-foreground text-sm">Building digital experiences that make a difference.</p>
             <div className="flex gap-4">
               <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" asChild>
-                <a href="https://github.com/johndoe" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/Twilight-Techy" target="_blank" rel="noopener noreferrer">
                   <Github className="h-4 w-4" />
                   <span className="sr-only">GitHub</span>
                 </a>
               </Button>
               <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" asChild>
-                <a href="https://linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/in/ibrahim-makanjuola/" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="h-4 w-4" />
                   <span className="sr-only">LinkedIn</span>
                 </a>
               </Button>
               <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" asChild>
-                <a href="mailto:hello@example.com">
+                <a href="https://x.com/iMaksxAI" target="_blank" rel="noopener noreferrer">
+                  <Twitter className="h-4 w-4" />
+                  <span className="sr-only">X (Twitter)</span>
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" className="rounded-full h-8 w-8" asChild>
+                <a href="mailto:mzone7325@gmail.com">
                   <Mail className="h-4 w-4" />
                   <span className="sr-only">Email</span>
                 </a>
