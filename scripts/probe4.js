@@ -1,0 +1,12 @@
+const { chromium } = require("playwright")
+;(async()=>{
+  const b=await chromium.launch({headless:false,args:["--use-gl=angle","--use-angle=d3d11","--ignore-gpu-blocklist"]})
+  const p=await (await b.newContext({viewport:{width:1440,height:900}})).newPage()
+  await p.goto("https://crisp-hazel.vercel.app/map",{waitUntil:"domcontentloaded",timeout:60000})
+  await p.waitForTimeout(6000)
+  await p.click('button:has-text("Last 30 Days")')
+  await p.waitForTimeout(1500)
+  const opts=await p.$$eval('[role=option], li, [data-radix-collection-item]', e=>e.map(x=>x.innerText.trim()).filter(Boolean))
+  console.log("time options:", JSON.stringify([...new Set(opts)].slice(0,12)))
+  await b.close()
+})()

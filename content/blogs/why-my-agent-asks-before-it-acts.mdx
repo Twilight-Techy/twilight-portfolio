@@ -1,0 +1,82 @@
+---
+title: "Why My Agent Asks Before It Acts"
+excerpt: "An agent that can write a bad paragraph and an agent that can switch on a heater are not the same problem. What changes when tool calls have physical consequences."
+coverImage: "/placeholder.svg"
+publishedAt: "2026-08-05T09:00:00Z"
+readingTime: 7
+category: "AI Agents"
+tags: ["AI Agents", "Model Context Protocol", "Gemini", "IoT", "Agent Safety"]
+featured: false
+---
+
+# Why My Agent Asks Before It Acts
+
+Artemis is a smart-home agent. You speak to it, it decides which tool to call, and a relay clicks somewhere in the house. Building it changed how I think about agent design, and the change came from one realisation:
+
+**An agent that can write a bad paragraph and an agent that can switch on a heater are not the same category of system.**
+
+A bad paragraph is a retry. A heater switched on when nobody is home is a real consequence, and no amount of model quality reduces the probability to zero.
+
+## The loop
+
+The core is the standard agentic cycle, and it is worth being precise about what "agentic" means here, because the word gets stretched:
+
+1. The user speaks or types.
+2. The model receives the request plus current context (time, sensor readings, device states) and selects a tool with arguments.
+3. The backend executes it against real hardware.
+4. The result is fed back as a function response.
+5. The model composes the confirmation the user hears.
+
+Step four is the part people skip. Without it, the agent tells you it turned the fan on because it *decided* to, not because it *did*. When the relay fails, an agent without the feedback step reports success anyway. That is not a small bug in a system whose entire job is to act on the physical world.
+
+## The reasoning trace
+
+Every tool in Artemis carries a parameter that has nothing to do with the tool's function:
+
+```python
+"reasoning_trace": types.Schema(
+    type=types.Type.STRING,
+    description="A short continuous list detailing your observations and "
+                "logical deductions that led to suggesting this action."
+)
+```
+
+The model cannot call a tool without stating why. It produces something like:
+
+```
+• I observed the temperature is 28°C in the Studio.
+• The threshold for cooling is set to 26°C.
+• Therefore, I suggest turning on the fan.
+```
+
+Two things fall out of this, and only one was intentional.
+
+The intended benefit is auditability. When the agent does something surprising, the trace is right there, and the bug is usually visible in it: the model read the wrong sensor, or applied a threshold from another room.
+
+The unintended benefit was better decisions. Requiring the justification as part of the tool call appears to make the calls themselves more considered. I would not overclaim a mechanism here, but the effect was consistent enough that I kept it.
+
+## The approval gate
+
+The system prompt requires that alongside any tool call, the model asks a short, plain question:
+
+> "Want me to switch off the Studio fan?"
+
+Nothing physical happens until the user says yes.
+
+This is the design decision people push back on, and the objection is fair: an assistant you have to confirm with is less magical than one that just acts. My answer is that the magic is not worth the failure mode. A false positive in a chat assistant is an awkward sentence. A false positive here is your lights going off during dinner, and the loss of trust from that is not recovered by the next ninety-nine correct actions.
+
+The gate is also not universal. Automations the user has explicitly marked as not requiring approval run silently; the rule engine checks `requires_approval` on the automation itself rather than inferring intent from the action text. The user decides where the boundary sits. The system just refuses to decide *for* them by default.
+
+## The simulator, which is also a safety feature
+
+Artemis has a Python simulator that reproduces the ESP32 firmware's exact REST and MQTT footprint. I built it so I could develop the backend without a wired breadboard on the desk.
+
+It turned out to matter for testing behaviour, not just convenience. You can drive the simulator into states that are tedious or slow to produce physically (a temperature spike, a motion sensor firing at 3am, a device that stops responding) and check what the agent does. Testing an agent's judgment requires provoking the situations where judgment is needed, and physical hardware is a bad instrument for that.
+
+## Where this leads
+
+Everything above generalises past smart homes. Any agent with real capability has real blast radius, and the questions are the same: can it explain itself, does it need permission, what happens when a tool fails, and can you reproduce the situation that made it misbehave.
+
+That is the thinking I am carrying into Skyla, where agents run long tasks on a user's behalf. Sandboxed execution, no reach into the core backend, from the first commit rather than as a hardening pass later.
+
+The interesting problem in agents is not making them capable. It is deciding what they are allowed to do with the capability.

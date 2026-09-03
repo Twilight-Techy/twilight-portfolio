@@ -40,6 +40,12 @@ export function ContactForm() {
     <Card>
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Honeypot: hidden from people, filled in by most bots. */}
+          <div className="hidden" aria-hidden="true">
+            <label htmlFor="website">Website</label>
+            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </div>
+
           {formState.success && (
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
               <Alert className="bg-green-500/10 text-green-500 border-green-500/20">

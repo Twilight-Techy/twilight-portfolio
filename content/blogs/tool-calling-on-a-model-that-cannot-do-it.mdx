@@ -1,0 +1,83 @@
+---
+title: "Giving an Open-Weight Model Tools It Doesn't Support"
+excerpt: "N-ATLaS speaks Hausa, Igbo and Yoruba, and has no native function calling. Here is how I gave it tool use anyway, and what broke along the way."
+coverImage: "/placeholder.svg"
+publishedAt: "2026-04-18T09:00:00Z"
+readingTime: 9
+category: "AI Systems"
+tags: ["LLM", "Tool Calling", "vLLM", "FastAPI", "Open-Weight Models"]
+featured: true
+---
+
+# Giving an Open-Weight Model Tools It Doesn't Support
+
+When I started building Kliniq (a clinical triage platform for English, Hausa, Igbo and Yoruba) the model choice made itself. N-ATLaS is an open-weight Nigerian multilingual model, and no commercial API speaks those languages with the same fluency. You cannot buy this capability. You have to host it.
+
+What you also cannot buy, it turns out, is function calling.
+
+## The problem
+
+Commercial APIs hand you tool use as a solved feature. You describe your functions in a schema, the model returns a structured `function_call` object, you execute it, you pass the result back. The plumbing is invisible.
+
+Open-weight models frequently have none of that. N-ATLaS generates text. That is the entire interface. So when a patient described chest pain and the model concluded an urgent appointment was warranted, the best it could do was *say so*. Nothing in the database changed.
+
+A triage assistant that can only talk about creating a triage record is not a triage assistant. It is a chatbot with good bedside manner.
+
+## The approach
+
+If the model can only emit text, then the tool call has to *be* text: a structure agreed in the system prompt, emitted mid-generation, and parsed out on the way through.
+
+I settled on a delimited JSON block:
+
+```
+<TOOL_CALL>
+{ "tool": "create_triage", "parameters": { "symptoms": "...", "urgency_level": "high" } }
+</TOOL_CALL>
+```
+
+The parsing side is unglamorous and that is the point:
+
+```python
+TOOL_CALL_PATTERN = re.compile(r'<TOOL_CALL>\s*(\{.*?\})\s*</TOOL_CALL>', re.DOTALL)
+
+def parse_tool_calls(response: str) -> Tuple[str, List[dict]]:
+    tool_calls = []
+    for match in TOOL_CALL_PATTERN.findall(response):
+        try:
+            call = json.loads(match)
+            if "tool" in call:
+                tool_calls.append(call)
+        except json.JSONDecodeError:
+            continue          # malformed block: ignore, keep the prose
+
+    cleaned = TOOL_CALL_PATTERN.sub('', response).strip()
+    return cleaned, tool_calls
+```
+
+Two decisions in that function matter more than they look.
+
+**Malformed JSON is skipped, not raised.** The model will occasionally emit a block with a trailing comma or an unclosed brace. Treating that as an exception means one bad token destroys the whole reply. Skipping it means the patient still gets a coherent answer, minus one action, a far better failure mode in a health context.
+
+**The block is stripped from the visible response.** The user should never see the machinery. They asked about chest pain; they get an answer about chest pain.
+
+## What actually broke
+
+**The model narrated its tools.** Early on, N-ATLaS would helpfully explain: *"I will now use the create_triage tool to record this."* Sometimes it explained instead of emitting the block. Sometimes it did both, producing two triage records. The fix was in the system prompt: the tool block is the action, and describing it in prose is not.
+
+**Non-English generations drifted.** The tool block held up well in English and degraded in the other three languages, where the model was more likely to translate the JSON keys. Keeping the keys ASCII and the schema shallow (no nesting beyond one level) made this mostly go away.
+
+**Partial execution.** A generation can contain two tool calls where the first succeeds and the second fails. Executing them as we parsed left the database in a half-updated state. Collecting all calls first, then executing them inside one transaction, made a failure all-or-nothing.
+
+## The serving side
+
+None of this matters if the model is not running. Kliniq serves N-ATLaS on Modal with vLLM: FP16 weights, an 8K context window, `gpu_memory_utilization` at 0.90, and (the part that makes it affordable) weights cached in a persistent volume so a cold container pulls from disk rather than re-downloading from Hugging Face.
+
+The container scales to zero. A health platform for a market where GPU budget is the binding constraint cannot pay for an idle A10G overnight, and with concurrency set so a single warm container serves several requests, cost tracks usage instead of uptime.
+
+## What I would tell myself at the start
+
+The protocol is the easy part. An afternoon gets you a regex and a dispatch table.
+
+The hard parts are the failure modes: what happens when the JSON is malformed, when the model calls a tool that does not exist, when it calls the right tool with the wrong arguments, when it calls the same tool twice. Commercial APIs have absorbed years of that work on your behalf. Doing it yourself is a good way to find out exactly how much they were doing.
+
+It is also the only way to give a model that speaks Hausa the ability to actually book an appointment. That trade was worth making.

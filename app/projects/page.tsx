@@ -181,12 +181,11 @@ function ProjectCard({ project }) {
                   size="icon"
                   variant="secondary"
                   className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    window.open(project.github, "_blank", "noopener,noreferrer")
-                  }}
+                  asChild
                 >
-                  <Github className="h-4 w-4" />
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" onClick={(e) => e.stopPropagation()}>
+                    <Github className="h-4 w-4" />
+                  </a>
                 </Button>
               )}
               {project.link && (
@@ -194,12 +193,11 @@ function ProjectCard({ project }) {
                   size="icon"
                   variant="secondary"
                   className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    window.open(project.link, "_blank", "noopener,noreferrer")
-                  }}
+                  asChild
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label="Open live site" onClick={(e) => e.stopPropagation()}>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
                 </Button>
               )}
             </div>

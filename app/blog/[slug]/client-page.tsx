@@ -145,13 +145,10 @@ export default function BlogPostPage({ post, relatedPosts }: { post: any, relate
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
                 <div className="flex items-center gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374&auto=format&fit=crop"
-                      alt="John Doe"
-                    />
-                    <AvatarFallback>JD</AvatarFallback>
+                    <AvatarImage src="/images/profile.png" alt="Ibrahim A. Makanjuola" />
+                    <AvatarFallback>IM</AvatarFallback>
                   </Avatar>
-                  <span>John Doe</span>
+                  <span>Ibrahim A. Makanjuola</span>
                 </div>
 
                 <div className="flex items-center gap-1">
@@ -266,25 +263,31 @@ export default function BlogPostPage({ post, relatedPosts }: { post: any, relate
             <div className="bg-muted dark:bg-zinc-800 rounded-lg p-6 mb-12">
               <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
                 <Avatar className="h-20 w-20">
-                  <AvatarImage
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374&auto=format&fit=crop"
-                    alt="John Doe"
-                  />
-                  <AvatarFallback>JD</AvatarFallback>
+                  <AvatarImage src="/images/profile.png" alt="Ibrahim A. Makanjuola" />
+                  <AvatarFallback>IM</AvatarFallback>
                 </Avatar>
 
                 <div>
-                  <h3 className="text-xl font-bold mb-2">John Doe</h3>
+                  <h3 className="text-xl font-bold mb-2">Ibrahim A. Makanjuola</h3>
                   <p className="text-muted-foreground mb-4">
-                    Software Engineer passionate about building beautiful and functional web applications.
-                    Specializing in React, Next.js, and modern JavaScript.
+                    Software engineer building AI systems: LLM inference infrastructure, tool-calling agents,
+                    and models small enough to run on a microcontroller. Currently on the backend of
+                    Games4Africa, and building Skyla.
                   </p>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      Follow
+                    <Button variant="outline" size="sm" asChild>
+                      <a href="https://github.com/Twilight-Techy" target="_blank" rel="noopener noreferrer">
+                        GitHub
+                      </a>
                     </Button>
-                    <Button variant="outline" size="sm">
-                      View Profile
+                    <Button variant="outline" size="sm" asChild>
+                      <a
+                        href="https://www.linkedin.com/in/ibrahim-makanjuola"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        LinkedIn
+                      </a>
                     </Button>
                   </div>
                 </div>

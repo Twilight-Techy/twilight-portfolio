@@ -85,6 +85,15 @@ export function Footer() {
                   All Projects
                 </Link>
               </li>
+              <li>
+                <a
+                  href="/Ibrahim_Makanjuola_Resume.pdf"
+                  download="Ibrahim_Makanjuola_Resume.pdf"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-sm"
+                >
+                  Resume
+                </a>
+              </li>
             </ul>
           </div>
         </div>

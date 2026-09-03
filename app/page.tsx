@@ -206,14 +206,14 @@ export default function LandingPage() {
                   variant="outline"
                   className="px-4 py-1 text-sm bg-primary/10 text-primary dark:bg-blue-500/10 dark:text-blue-400 border-primary/20 dark:border-blue-500/20"
                 >
-                  Software Engineer
+                  Software Engineer, AI Systems
                 </Badge>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  Crafting Digital <span className="text-primary dark:text-blue-400">Experiences</span> That Matter
+                  I build the machinery around <span className="text-primary dark:text-blue-400">AI models</span>, not just calls to them
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-lg">
-                  I build modern, responsive web applications with cutting-edge technologies to solve real-world
-                  problems.
+                  LLM inference infrastructure, tool-calling agents, and models small enough to run on a
+                  microcontroller, backed by the backend engineering that makes any of it shippable.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-4">
                   <Button
@@ -268,14 +268,27 @@ export default function LandingPage() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="relative"
               >
-                <div className="relative w-full h-[400px] lg:h-[500px] rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent dark:from-blue-600/20 rounded-lg z-10"></div>
-                  <Image
-                    src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1472&auto=format&fit=crop"
-                    alt="Developer working on code"
-                    fill
-                    className="object-cover rounded-lg"
-                  />
+                <div className="relative w-full rounded-lg overflow-hidden border border-border bg-zinc-950 shadow-xl">
+                  <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800 bg-zinc-900">
+                    <span className="h-3 w-3 rounded-full bg-red-500/70"></span>
+                    <span className="h-3 w-3 rounded-full bg-yellow-500/70"></span>
+                    <span className="h-3 w-3 rounded-full bg-green-500/70"></span>
+                    <span className="ml-2 text-xs text-zinc-500 font-mono truncate">
+                      artemis/backend/app/services/gemini_service.py
+                    </span>
+                  </div>
+                  <pre className="p-4 md:p-6 text-[11px] sm:text-xs md:text-sm leading-relaxed font-mono overflow-x-auto text-zinc-300">
+<code>{`"reasoning_trace": types.Schema(
+    type=types.Type.STRING,
+    description=(
+        "Observations and logical deductions "
+        "that led to suggesting this action."
+    ),
+),
+
+# the model must explain itself, and the user
+# must approve, before anything physical happens`}</code>
+                  </pre>
                 </div>
                 <div className="absolute -bottom-5 -right-5 w-32 h-32 bg-primary/10 dark:bg-blue-600/10 rounded-lg z-0"></div>
                 <div className="absolute -top-5 -left-5 w-32 h-32 bg-primary/10 dark:bg-blue-600/10 rounded-lg z-0"></div>
@@ -319,41 +332,44 @@ export default function LandingPage() {
                   Hi, I'm <span className="text-primary dark:text-blue-400">Ibrahim Makanjuola</span>
                 </h3>
                 <p className="text-muted-foreground">
-                  I'm a passionate Software Engineer with over 5 years of experience building web applications. I
-                  specialize in JavaScript technologies across the stack and have a strong foundation in modern
-                  frameworks.
+                  I'm a software engineer working at the intersection of AI systems and backend engineering. I've
+                  served an open-weight multilingual LLM on GPUs with vLLM, built an agent that reasons over live
+                  sensor data to switch on hardware in a real room, and quantized a network to INT8 so it runs
+                  inference on a $5 microcontroller.
                 </p>
                 <p className="text-muted-foreground">
-                  My journey in tech started when I built my first website at 15. Since then, I've worked with startups
-                  and established companies to create scalable, user-friendly applications that solve real problems.
+                  Right now I'm a backend engineer on Games4Africa, the central hub for an African gaming platform.
+                  Before that I built production APIs at Intenttech, and I've spent the last two years volunteering as
+                  lead engineer at the Retgrow Initiative, putting structured tech education in front of 100+ students.
+                  I hold a B.Eng. in Electronics and Computer Engineering from Lagos State University.
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 pt-4">
                   <div>
-                    <h4 className="font-semibold mb-2">Frontend</h4>
+                    <h4 className="font-semibold mb-2">AI Systems</h4>
                     <ul className="space-y-2">
                       <li>
                         <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
                           <Code className="h-3 w-3" />
-                          React
+                          vLLM
                         </Badge>
                       </li>
                       <li>
                         <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
                           <Layers className="h-3 w-3" />
-                          Next.js
+                          Model Context Protocol
                         </Badge>
                       </li>
                       <li>
                         <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
                           <FileCode className="h-3 w-3" />
-                          TypeScript
+                          PyTorch
                         </Badge>
                       </li>
                       <li>
                         <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
                           <Paintbrush className="h-3 w-3" />
-                          Tailwind CSS
+                          TensorFlow
                         </Badge>
                       </li>
                     </ul>
@@ -364,19 +380,19 @@ export default function LandingPage() {
                       <li>
                         <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
                           <Server className="h-3 w-3" />
-                          Node.js
+                          FastAPI
                         </Badge>
                       </li>
                       <li>
                         <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
                           <Zap className="h-3 w-3" />
-                          Express
+                          NestJS
                         </Badge>
                       </li>
                       <li>
                         <Badge className="bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 hover:bg-primary/30 flex items-center w-fit gap-1.5">
                           <Database className="h-3 w-3" />
-                          MongoDB
+                          Python
                         </Badge>
                       </li>
                       <li>
@@ -392,7 +408,8 @@ export default function LandingPage() {
                 <div className="pt-4">
                   <Button className="bg-primary hover:bg-primary/90 dark:bg-blue-600 dark:hover:bg-blue-700" asChild>
                     <a
-                      href="https://drive.google.com/file/d/1example-resume-link/view"
+                      href="/Ibrahim_Makanjuola_Resume.pdf"
+                      download="Ibrahim_Makanjuola_Resume.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -407,7 +424,7 @@ export default function LandingPage() {
         {/* Projects Section */}
         <section id="projects" className="py-20 bg-muted/50 dark:bg-zinc-800/50">
           <div className="container mx-auto px-4">
-            <SectionHeader title="My Projects" subtitle="Recent Work" />
+            <SectionHeader title="Selected Work" subtitle="Agents, inference infrastructure, and on-device ML" />
 
             <div className="mt-8">
               <Tabs defaultValue="all" className="w-full">
@@ -421,11 +438,25 @@ export default function LandingPage() {
                       All
                     </TabsTrigger>
                     <TabsTrigger
-                      value="frontend"
-                      onClick={() => setActiveFilter("frontend")}
+                      value="agents"
+                      onClick={() => setActiveFilter("agents")}
                       className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
                     >
-                      Frontend
+                      Agents
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="llm"
+                      onClick={() => setActiveFilter("llm")}
+                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
+                    >
+                      LLM Systems
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="ml"
+                      onClick={() => setActiveFilter("ml")}
+                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
+                    >
+                      Machine Learning
                     </TabsTrigger>
                     <TabsTrigger
                       value="fullstack"
@@ -433,20 +464,6 @@ export default function LandingPage() {
                       className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
                     >
                       Full Stack
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="mobile"
-                      onClick={() => setActiveFilter("mobile")}
-                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
-                    >
-                      Mobile
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="ai"
-                      onClick={() => setActiveFilter("ai")}
-                      className="rounded-full px-5 py-2 md:px-6 md:py-2.5 border border-border/50 bg-background/50 backdrop-blur-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary dark:data-[state=active]:bg-blue-600 dark:data-[state=active]:border-blue-600 hover:bg-muted/80 hover:border-border transition-all shadow-sm"
-                    >
-                      AI
                     </TabsTrigger>
                   </TabsList>
                 </div>
@@ -459,7 +476,23 @@ export default function LandingPage() {
                   </div>
                 </TabsContent>
 
-                <TabsContent value="frontend" className="mt-0">
+                <TabsContent value="agents" className="mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredProjects.map((project) => (
+                      <ProjectCard key={project.id} project={project} />
+                    ))}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="llm" className="mt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredProjects.map((project) => (
+                      <ProjectCard key={project.id} project={project} />
+                    ))}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="ml" className="mt-0">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredProjects.map((project) => (
                       <ProjectCard key={project.id} project={project} />
@@ -468,22 +501,6 @@ export default function LandingPage() {
                 </TabsContent>
 
                 <TabsContent value="fullstack" className="mt-0">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredProjects.map((project) => (
-                      <ProjectCard key={project.id} project={project} />
-                    ))}
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="mobile" className="mt-0">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredProjects.map((project) => (
-                      <ProjectCard key={project.id} project={project} />
-                    ))}
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="ai" className="mt-0">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredProjects.map((project) => (
                       <ProjectCard key={project.id} project={project} />
@@ -681,12 +698,11 @@ function ProjectCard({ project }) {
                   size="icon"
                   variant="secondary"
                   className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    window.open(project.github, "_blank", "noopener,noreferrer")
-                  }}
+                  asChild
                 >
-                  <Github className="h-4 w-4" />
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" onClick={(e) => e.stopPropagation()}>
+                    <Github className="h-4 w-4" />
+                  </a>
                 </Button>
               )}
               {project.link && (
@@ -694,12 +710,11 @@ function ProjectCard({ project }) {
                   size="icon"
                   variant="secondary"
                   className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    window.open(project.link, "_blank", "noopener,noreferrer")
-                  }}
+                  asChild
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label="Open live site" onClick={(e) => e.stopPropagation()}>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
                 </Button>
               )}
             </div>

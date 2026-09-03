@@ -1,0 +1,69 @@
+---
+title: "Fitting an LSTM Into 120 KB"
+excerpt: "A time-series model that predicts EV range, compressed to INT8 and running on a $5 microcontroller. The memory budget turned out to be the entire engineering problem."
+coverImage: "/placeholder.svg"
+publishedAt: "2026-07-22T09:00:00Z"
+readingTime: 8
+category: "Edge AI"
+tags: ["TensorFlow", "Quantization", "TFLite Micro", "ESP32", "Edge AI"]
+featured: true
+---
+
+# Fitting an LSTM Into 120 KB
+
+I wanted to predict the remaining range of a Keke Maruwa (the electric tricycles that move a large share of Lagos) and I wanted the prediction to happen on the vehicle. Not in the cloud. A tricycle in traffic should not need connectivity to tell its driver how far it can go.
+
+That single constraint dictated everything else.
+
+## Why a time-series model at all
+
+The obvious approach is a formula: state of charge multiplied by an efficiency constant. It fails immediately, because two tricycles at identical charge and battery temperature have very different remaining range if one has been driven hard for the last minute and the other smoothly.
+
+Range depends on recent history, which makes it a sequence problem. So the model reads a **60-second rolling window of ten features** (speed, acceleration, passenger load, road slope, auxiliary load, voltage, current, state of charge, battery temperature, state of health) rather than an instantaneous snapshot. Input shape `(60, 10)`.
+
+An LSTM handles that naturally. It also, in its native form, does not remotely fit on an ESP32.
+
+## The budget
+
+An ESP32 has around 520 KB of SRAM, and the practical ceiling for a TFLite Micro tensor arena is well under that once the firmware, Wi-Fi stack and buffers take their share. I set 120 KB and treated it as immovable.
+
+This inverts how you normally tune a model. Architecture search is usually a hunt for accuracy. Here it was a hunt for accuracy *inside a box*, and the box was not negotiable.
+
+I used KerasTuner with Bayesian optimization over LSTM units (32–256), dropout (0.1–0.4) and learning rate (1e-2 to 1e-4). Bayesian search rather than grid or random, because each trial trains a recurrent model over sequences and is expensive enough that you want the search to be sample-efficient. It converged on 96 units, comfortably smaller than the top of the range, and the accuracy cost against larger configurations was small enough that the memory saving won easily.
+
+## Quantization is where the size goes
+
+A trained FP32 model was still far too large, and it carried a second problem: its graph contained CuDNN-optimized operations that simply do not exist on an Xtensa microcontroller.
+
+Full-integer post-training quantization solved both at once:
+
+```python
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+converter.optimizations = [tf.lite.Optimize.DEFAULT]
+converter.representative_dataset = representative_data_gen
+converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
+converter.inference_input_type = tf.int8
+converter.inference_output_type = tf.int8
+```
+
+The representative dataset is the part people skip, and it is the part that matters. Quantization needs to know the real range of activations at each layer to choose scale and zero-point. Feed it random noise and you get a model that is technically INT8 and practically useless. Feed it a genuine sample of the training distribution and the accuracy loss is small.
+
+Result: **over 75% smaller**, and every GPU-only op gone.
+
+## On the device
+
+The firmware keeps a **ring buffer** in RAM holding the trailing 60 seconds of readings. Every second it scales the raw sensor values using the `StandardScaler` constants exported from training, quantizes them into the input tensor, and invokes `tflite::MicroInterpreter`.
+
+Exporting those scaler constants is easy to overlook. The model was trained on standardized inputs, so the firmware must apply *exactly* the same transformation (the same means and standard deviations, hardcoded into the C++) or inference is silently, confidently wrong. There is no error message for this. The numbers are just incorrect.
+
+I proved the hardware path in Wokwi before touching a soldering iron: four potentiometers mapped to speed, charge, temperature and load, and an I2C OLED displaying the prediction. Turning a knob changes the number on the display, and the arena never overflows.
+
+## What I would keep
+
+**The memory budget as a first-class constraint.** Deciding 120 KB up front, before training anything, meant every later decision had a clear criterion. Training a good model and then discovering it does not fit wastes the training.
+
+**The representative dataset.** It is three lines of code and it is the difference between quantization working and quantization appearing to work.
+
+**Honesty about the data.** The training set is synthetic, generated from a physics-based consumption model with injected sensor noise, because high-resolution telemetry for electric tricycles is not publicly available. The pipeline is real, the deployment is real, the numbers come from a simulation. Replacing it with CAN-bus logs from an actual vehicle is the obvious next step, and until that happens I would not claim more than the pipeline demonstrates.
+
+The interesting result is not the model. It is that a time-series network doing real inference fits on a five-dollar chip.

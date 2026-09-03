@@ -27,197 +27,31 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { projects } from "@/data/projects"
 
-// Mock projects data (would be replaced with actual API calls)
-const mockProjects = [
-  {
-    id: 1,
-    slug: "e-commerce-platform",
-    title: "E-Commerce Platform",
-    subtitle: "A full-stack online shopping experience",
-    description:
-      "A comprehensive e-commerce platform with payment integration, admin dashboard, and responsive design.",
-    longDescription:
-      "This e-commerce platform provides a complete online shopping experience with product listings, shopping cart functionality, secure checkout with Stripe integration, user accounts, and an admin dashboard for managing products, orders, and customers. The platform is built with scalability in mind and features responsive design for optimal viewing on all devices.",
-    challenge:
-      "The main challenge was creating a seamless shopping experience across devices while ensuring secure payment processing and efficient inventory management. Additionally, the admin dashboard needed to provide comprehensive analytics and easy product management.",
-    solution:
-      "I implemented a React frontend with Next.js for server-side rendering and SEO benefits. The backend uses Node.js with Express and MongoDB for flexible data storage. Stripe was integrated for secure payments, and the admin dashboard was built with real-time data visualization using Chart.js. The responsive design was achieved using Tailwind CSS.",
-    outcome:
-      "The platform has successfully processed over 500 orders in its first month, with a cart abandonment rate 15% lower than industry average. The admin dashboard has streamlined inventory management, reducing the time spent on administrative tasks by 40%.",
-    coverImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1470&auto=format&fit=crop",
-    images: [
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1470&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1572584642822-6f8de0243c93?q=80&w=1470&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?q=80&w=1470&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1561069934-eee225952461?q=80&w=1470&auto=format&fit=crop",
-    ],
-    tags: ["React", "Node.js", "MongoDB", "Stripe", "Tailwind CSS", "Next.js"],
-    category: "fullstack",
-    link: "https://ecommerce-demo.com",
-    github: "https://github.com/johndoe/ecommerce-platform",
-    featured: true,
-    completedAt: "2023-03-15",
-    duration: "3 months",
-    client: "Self-initiated",
-    role: "Software Engineer",
-    keyFeatures: [
-      "User authentication and profiles",
-      "Product search and filtering",
-      "Shopping cart and wishlist",
-      "Secure checkout with Stripe",
-      "Order tracking and history",
-      "Admin dashboard with analytics",
-      "Inventory management",
-      "Responsive design",
-    ],
-    technologies: {
-      frontend: ["React", "Next.js", "Tailwind CSS", "Redux"],
-      backend: ["Node.js", "Express", "MongoDB"],
-      deployment: ["Vercel", "MongoDB Atlas"],
-      other: ["Stripe API", "Chart.js", "Cloudinary"],
-    },
-  },
-  {
-    id: 2,
-    slug: "ai-image-generator",
-    title: "AI Image Generator",
-    subtitle: "Creating art with artificial intelligence",
-    description: "Web app that generates images based on text prompts using AI models.",
-    longDescription:
-      "This AI-powered image generation application allows users to create unique images by simply describing what they want to see. Using OpenAI's DALL-E API, the application translates text descriptions into visual art. Users can save their creations, share them on social media, and explore a gallery of community-generated images for inspiration.",
-    challenge:
-      "The primary challenge was creating an intuitive interface for text-to-image generation while managing API costs and optimizing image processing. Additionally, implementing a responsive gallery that could handle various image dimensions without breaking the layout was complex.",
-    solution:
-      "I built a React application with Next.js that interfaces with OpenAI's API. The frontend features a clean, intuitive prompt input system with suggestion helpers. I implemented a token estimation system to help users craft effective prompts and a caching layer to reduce redundant API calls. The gallery uses a masonry layout to accommodate various image dimensions.",
-    outcome:
-      "The application has generated over 10,000 images in its first two months, with a 40% share rate to social media. User retention is strong, with 65% of users returning to create multiple images.",
-    coverImage: "https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1528&auto=format&fit=crop",
-    images: [
-      "https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1528&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1617791160505-6f00504e3519?q=80&w=1528&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1579403124614-197f69d8187b?q=80&w=1528&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1528&auto=format&fit=crop",
-    ],
-    tags: ["Next.js", "OpenAI", "TailwindCSS", "TypeScript"],
-    category: "ai",
-    link: "https://ai-image-gen.vercel.app",
-    github: "https://github.com/johndoe/ai-image-generator",
-    featured: true,
-    completedAt: "2023-01-20",
-    duration: "6 weeks",
-    client: "Self-initiated",
-    role: "Frontend Developer & AI Integration",
-    keyFeatures: [
-      "Text-to-image generation",
-      "Prompt suggestions and history",
-      "Image gallery with filtering",
-      "User collections",
-      "Social media sharing",
-      "Community showcase",
-      "User authentication",
-    ],
-    technologies: {
-      frontend: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
-      backend: ["Node.js", "Express", "MongoDB"],
-      deployment: ["Vercel", "MongoDB Atlas"],
-      other: ["OpenAI API", "Cloudinary", "NextAuth.js"],
-    },
-  },
-  {
-    id: 3,
-    slug: "fitness-tracker",
-    title: "Fitness Tracker",
-    subtitle: "Your personal health companion",
-    description: "Mobile app for tracking workouts, nutrition, and fitness progress.",
-    longDescription:
-      "This comprehensive fitness tracking application helps users monitor their workouts, nutrition, and overall health progress. The app provides personalized workout plans, nutrition tracking with a food database, progress visualization with charts, and integration with popular fitness wearables. Users can set goals, track their achievements, and join challenges to stay motivated.",
-    challenge:
-      "Creating a unified platform that could track various aspects of fitness while keeping the user experience simple and engaging was the main challenge. Additionally, ensuring accurate data synchronization between devices and wearables required robust backend architecture.",
-    solution:
-      "I developed a React Native application for cross-platform compatibility, with a Firebase backend for real-time data synchronization. The app uses Redux for state management and implements a modular architecture to handle different tracking modules. For wearable integration, I used the respective APIs and created a unified data model to normalize information from different sources.",
-    outcome:
-      "The app has been downloaded over 25,000 times with a 4.7-star average rating. User engagement metrics show that 70% of users log in at least 3 times per week, and the average user session length is 8 minutes.",
-    coverImage: "https://images.unsplash.com/photo-1510440777527-38815cfc6cc2?q=80&w=1470&auto=format&fit=crop",
-    images: [
-      "https://images.unsplash.com/photo-1510440777527-38815cfc6cc2?q=80&w=1470&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1470&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?q=80&w=1470&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?q=80&w=1470&auto=format&fit=crop",
-    ],
-    tags: ["React Native", "Firebase", "Redux", "Expo"],
-    category: "mobile",
-    link: "https://fitnesstracker.app",
-    github: "https://github.com/johndoe/fitness-tracker",
-    featured: false,
-    completedAt: "2022-11-10",
-    duration: "4 months",
-    client: "HealthTech Inc.",
-    role: "Mobile Developer",
-    keyFeatures: [
-      "Workout tracking and planning",
-      "Nutrition logging with food database",
-      "Progress visualization",
-      "Goal setting and achievements",
-      "Wearable device integration",
-      "Community challenges",
-      "Personalized recommendations",
-    ],
-    technologies: {
-      frontend: ["React Native", "Expo", "Redux", "Victory Charts"],
-      backend: ["Firebase", "Cloud Functions"],
-      deployment: ["App Store", "Google Play", "Firebase Hosting"],
-      other: ["Fitbit API", "Apple HealthKit", "Google Fit API"],
-    },
-  },
-]
-
-export default function ProjectDetailPage() {
+export default function ProjectDetailClientPage({
+  project: initialProject,
+  relatedProjects: initialRelated = [],
+}: {
+  project: any
+  relatedProjects?: any[]
+}) {
   const params = useParams()
   const router = useRouter()
   const { slug } = params
 
-  const [project, setProject] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [relatedProjects, setRelatedProjects] = useState([])
+  const [project] = useState<any>(initialProject)
+  const [isLoading] = useState(false)
+  const [relatedProjects] = useState<any[]>(initialRelated)
   const [activeTab, setActiveTab] = useState("overview")
 
   // Fetch project data
-  useEffect(() => {
-    const fetchProject = () => {
-      // Simulate API call
-      setTimeout(() => {
-        const foundProject = mockProjects.find((p) => p.slug === slug)
-
-        if (foundProject) {
-          setProject(foundProject)
-
-          // Find related projects (same category or tags)
-          const related = mockProjects
-            .filter((p) => p.id !== foundProject.id)
-            .filter(
-              (p) => p.category === foundProject.category || p.tags.some((tag) => foundProject.tags.includes(tag)),
-            )
-            .slice(0, 2)
-
-          setRelatedProjects(related)
-        } else {
-          // Project not found, but don't redirect - just set project to null
-          setProject(null)
-        }
-
-        setIsLoading(false)
-      }, 1000)
-    }
-
-    if (slug) {
-      fetchProject()
-    }
-  }, [slug])
 
   // Format date
   const formatDate = (dateString) => {
+    if (!dateString) return "In development"
     const date = new Date(dateString)
+    if (Number.isNaN(date.getTime())) return "In development"
     return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "long",
