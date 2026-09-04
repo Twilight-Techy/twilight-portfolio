@@ -130,8 +130,8 @@ export default function ProjectDetailClientPage({
             </div>
 
             {/* Cover Image */}
-            <div className="relative h-[300px] md:h-[400px] lg:h-[500px] w-full mb-8 rounded-lg overflow-hidden">
-              <Image src={project.coverImage || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+            <div className="relative h-[300px] md:h-[400px] lg:h-[500px] w-full mb-8 rounded-lg overflow-hidden bg-muted dark:bg-zinc-800">
+              <Image src={project.coverImage || "/placeholder.svg"} alt={project.title} fill className="object-contain" />
             </div>
 
             {/* Project Content */}
@@ -357,12 +357,12 @@ export default function ProjectDetailClientPage({
                     <CarouselContent>
                       {project.images.map((image, index) => (
                         <CarouselItem key={index}>
-                          <div className="relative h-[300px] md:h-[400px] lg:h-[500px] w-full rounded-lg overflow-hidden">
+                          <div className="relative h-[300px] md:h-[400px] lg:h-[500px] w-full rounded-lg overflow-hidden bg-muted dark:bg-zinc-800">
                             <Image
                               src={image || "/placeholder.svg"}
                               alt={`${project.title} - Image ${index + 1}`}
                               fill
-                              className="object-cover"
+                              className="object-contain"
                             />
                           </div>
                         </CarouselItem>
@@ -383,12 +383,12 @@ export default function ProjectDetailClientPage({
                   {relatedProjects.map((relatedProject) => (
                     <Link key={relatedProject.id} href={`/projects/${relatedProject.slug}`}>
                       <Card className="h-full hover:border-primary/50 dark:hover:border-blue-500/50 transition-all duration-300">
-                        <div className="relative h-48 w-full overflow-hidden">
+                        <div className="relative h-48 w-full overflow-hidden bg-muted dark:bg-zinc-800">
                           <Image
                             src={relatedProject.coverImage || "/placeholder.svg"}
                             alt={relatedProject.title}
                             fill
-                            className="object-cover transition-transform duration-500 hover:scale-105"
+                            className="object-contain transition-transform duration-500 hover:scale-105"
                           />
                         </div>
                         <CardContent className="p-4">

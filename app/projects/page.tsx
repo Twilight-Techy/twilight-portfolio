@@ -165,12 +165,12 @@ function ProjectCard({ project }) {
       whileHover={{ y: -5 }}
     >
       <Card className="overflow-hidden h-full border border-border hover:border-primary/50 dark:hover:border-blue-500/50 transition-all duration-300">
-        <div className="relative h-48 w-full overflow-hidden">
+        <div className="relative h-48 w-full overflow-hidden bg-muted dark:bg-zinc-800">
           <Image
             src={project.image || "/placeholder.svg"}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-contain transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent dark:from-zinc-900/80"></div>
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">

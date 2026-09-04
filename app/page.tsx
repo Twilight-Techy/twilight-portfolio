@@ -208,7 +208,7 @@ export default function LandingPage() {
                 >
                   Software Engineer, AI Systems
                 </Badge>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-balance">
                   I build the machinery around <span className="text-primary dark:text-blue-400">AI models</span>, not just calls to them
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-lg">
@@ -278,13 +278,25 @@ export default function LandingPage() {
                     </span>
                   </div>
                   <pre className="p-4 md:p-6 text-[11px] sm:text-xs md:text-sm leading-relaxed font-mono overflow-x-auto text-zinc-300">
-<code>{`"reasoning_trace": types.Schema(
-    type=types.Type.STRING,
-    description=(
-        "Observations and logical deductions "
-        "that led to suggesting this action."
+<code>{`types.FunctionDeclaration(
+    name="control_device",
+    description="Turn a device on or off.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "device_name": types.Schema(...),
+            "action": types.Schema(...),
+            "reasoning_trace": types.Schema(
+                type=types.Type.STRING,
+                description=(
+                    "Observations and logical "
+                    "deductions that led to "
+                    "suggesting this action."
+                ),
+            ),
+        },
     ),
-),
+)
 
 # the model must explain itself, and the user
 # must approve, before anything physical happens`}</code>
@@ -682,12 +694,12 @@ function ProjectCard({ project }) {
       className="group"
     >
       <Card className="overflow-hidden h-full border border-border hover:border-primary/50 dark:hover:border-blue-500/50 transition-all duration-300">
-        <div className="relative h-48 w-full overflow-hidden">
+        <div className="relative h-48 w-full overflow-hidden bg-muted dark:bg-zinc-800">
           <Image
             src={project.image || "/placeholder.svg"}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-contain transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent dark:from-zinc-900/80"></div>
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
