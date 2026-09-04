@@ -21,6 +21,8 @@ export interface Project {
   tags: string[];
   category: string;
   status: "Live" | "Open source" | "In development";
+  /** Phone screenshots: letterbox them instead of cropping to fill. */
+  portraitImages?: boolean;
   link?: string;
   github?: string;
   featured: boolean;
@@ -56,6 +58,7 @@ export const projects: Project[] = [
     tags: ["FastAPI", "Gemini", "Model Context Protocol", "MQTT", "ESP32", "React Native"],
     category: "agents",
     status: "Open source",
+    portraitImages: true,
     github: "https://github.com/Twilight-Techy/artemis",
     featured: true,
     completedAt: "2026-07-15",

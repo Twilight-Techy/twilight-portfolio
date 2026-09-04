@@ -131,7 +131,12 @@ export default function ProjectDetailClientPage({
 
             {/* Cover Image */}
             <div className="relative h-[300px] md:h-[400px] lg:h-[500px] w-full mb-8 rounded-lg overflow-hidden bg-muted dark:bg-zinc-800">
-              <Image src={project.coverImage || "/placeholder.svg"} alt={project.title} fill className="object-contain" />
+              <Image
+                src={project.coverImage || "/placeholder.svg"}
+                alt={project.title}
+                fill
+                className={project.portraitImages ? "object-contain" : "object-cover"}
+              />
             </div>
 
             {/* Project Content */}
@@ -362,7 +367,7 @@ export default function ProjectDetailClientPage({
                               src={image || "/placeholder.svg"}
                               alt={`${project.title} - Image ${index + 1}`}
                               fill
-                              className="object-contain"
+                              className={project.portraitImages ? "object-contain" : "object-cover"}
                             />
                           </div>
                         </CarouselItem>
@@ -388,7 +393,7 @@ export default function ProjectDetailClientPage({
                             src={relatedProject.coverImage || "/placeholder.svg"}
                             alt={relatedProject.title}
                             fill
-                            className="object-contain transition-transform duration-500 hover:scale-105"
+                            className={`${relatedProject.portraitImages ? "object-contain" : "object-cover"} transition-transform duration-500 hover:scale-105`}
                           />
                         </div>
                         <CardContent className="p-4">

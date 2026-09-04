@@ -699,7 +699,7 @@ function ProjectCard({ project }) {
             src={project.image || "/placeholder.svg"}
             alt={project.title}
             fill
-            className="object-contain transition-transform duration-500 group-hover:scale-110"
+            className={`${project.portraitImages ? "object-contain" : "object-cover"} transition-transform duration-500 group-hover:scale-110`}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent dark:from-zinc-900/80"></div>
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
