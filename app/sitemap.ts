@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next"
 import { projects } from "@/data/projects"
 import { getAllBlogPosts } from "@/lib/mdx"
 
-export const SITE_URL = "https://twilight-techy.vercel.app"
+export const SITE_URL = "https://www.twilighttechy.dev"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = ["", "/projects", "/blog", "/github"].map((route) => ({

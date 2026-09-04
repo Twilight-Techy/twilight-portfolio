@@ -8,7 +8,7 @@ import { Inter } from "next/font/google"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  metadataBase: new URL("https://twilight-techy.vercel.app"),
+  metadataBase: new URL("https://www.twilighttechy.dev"),
   title: {
     default: "Ibrahim A. Makanjuola, Software Engineer, AI Systems",
     template: "%s · Ibrahim A. Makanjuola",
@@ -67,7 +67,7 @@ const personSchema = {
   jobTitle: "Software Engineer",
   description:
     "Software engineer building AI systems: LLM inference infrastructure, tool-calling agents, and on-device ML.",
-  url: "https://twilight-techy.vercel.app",
+  url: "https://www.twilighttechy.dev",
   email: "mailto:mzone7325@gmail.com",
   address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
   alumniOf: {
