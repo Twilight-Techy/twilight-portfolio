@@ -303,54 +303,20 @@ export default function ProjectDetailClientPage({
                 <div>
                   <h2 className="text-2xl font-bold mb-4">Development Process</h2>
                   <div className="space-y-8">
-                    <div className="relative pl-8 border-l-2 border-primary/30 dark:border-blue-500/30">
-                      <div className="absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-primary dark:bg-blue-500"></div>
-                      <h3 className="font-semibold text-lg mb-2">Research & Planning</h3>
-                      <p className="text-muted-foreground mb-4">
-                        I began by researching similar applications and identifying key features that would set this
-                        project apart. User personas were created to guide the design process, and a comprehensive
-                        project plan was developed.
-                      </p>
-                    </div>
-
-                    <div className="relative pl-8 border-l-2 border-primary/30 dark:border-blue-500/30">
-                      <div className="absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-primary dark:bg-blue-500"></div>
-                      <h3 className="font-semibold text-lg mb-2">Design & Prototyping</h3>
-                      <p className="text-muted-foreground mb-4">
-                        Wireframes were created to establish the basic layout and user flow. These were then transformed
-                        into high-fidelity mockups and interactive prototypes for user testing and feedback.
-                      </p>
-                    </div>
-
-                    <div className="relative pl-8 border-l-2 border-primary/30 dark:border-blue-500/30">
-                      <div className="absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-primary dark:bg-blue-500"></div>
-                      <h3 className="font-semibold text-lg mb-2">Development</h3>
-                      <p className="text-muted-foreground mb-4">
-                        The development phase followed an agile methodology with two-week sprints. The frontend and
-                        backend were developed in parallel, with regular integration points. Continuous integration
-                        ensured code quality throughout the process.
-                      </p>
-                    </div>
-
-                    <div className="relative pl-8 border-l-2 border-primary/30 dark:border-blue-500/30">
-                      <div className="absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-primary dark:bg-blue-500"></div>
-                      <h3 className="font-semibold text-lg mb-2">Testing & Refinement</h3>
-                      <p className="text-muted-foreground mb-4">
-                        Comprehensive testing was conducted, including unit tests, integration tests, and user
-                        acceptance testing. A beta version was released to a select group of users for feedback, which
-                        informed the final refinements.
-                      </p>
-                    </div>
-
-                    <div className="relative pl-8">
-                      <div className="absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-primary dark:bg-blue-500"></div>
-                      <h3 className="font-semibold text-lg mb-2">Deployment & Monitoring</h3>
-                      <p className="text-muted-foreground mb-4">
-                        The application was deployed using a CI/CD pipeline, ensuring smooth and reliable releases.
-                        Post-launch monitoring was set up to track performance, user behavior, and identify any issues
-                        for immediate resolution.
-                      </p>
-                    </div>
+                    {project.process.map((stage, index) => (
+                      <div
+                        key={stage.title}
+                        className={`relative pl-8 ${
+                          index === project.process.length - 1
+                            ? ""
+                            : "border-l-2 border-primary/30 dark:border-blue-500/30"
+                        }`}
+                      >
+                        <div className="absolute left-[-9px] top-0 h-4 w-4 rounded-full bg-primary dark:bg-blue-500"></div>
+                        <h3 className="font-semibold text-lg mb-2">{stage.title}</h3>
+                        <p className="text-muted-foreground mb-4">{stage.body}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </TabsContent>

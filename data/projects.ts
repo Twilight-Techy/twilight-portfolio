@@ -1,3 +1,8 @@
+export interface ProjectStage {
+  title: string;
+  body: string;
+}
+
 export interface ProjectTechnologies {
   frontend: string[];
   backend: string[];
@@ -31,6 +36,8 @@ export interface Project {
   client: string;
   role: string;
   keyFeatures: string[];
+  /** How the project was actually built, in order. Length varies by project. */
+  process: ProjectStage[];
   technologies: ProjectTechnologies;
 }
 
@@ -71,6 +78,33 @@ export const projects: Project[] = [
       "Event-driven sensor telemetry over MQTT, published only on state change",
       "Dynamic UI that renders controls from device-advertised capabilities",
       "Python simulator mirroring the firmware's exact wire contract",
+    ],
+    process: [
+      {
+        title: "Settling the wire contract first",
+        body:
+          "Before any firmware existed I fixed the REST and MQTT footprint the devices would speak. That let the backend and the ESP32 code be written against the same spec instead of converging on each other later.",
+      },
+      {
+        title: "Building the simulator before the hardware",
+        body:
+          "A Python twin reproducing the firmware's exact wire contract came before the physical build. Without it, every backend change would have needed a wired breadboard on the desk, which would have made the project impractical to work on.",
+      },
+      {
+        title: "Moving from rules to tools",
+        body:
+          "The first version matched commands against a rule table and broke on anything phrased unexpectedly. Replacing that with tool schemas the model chooses between fixed the brittleness, but produced calls I could not account for, so a reasoning_trace argument became mandatory on every tool.",
+      },
+      {
+        title: "Adding the approval gate",
+        body:
+          "A wrong tool call here switches on a heater rather than producing a bad sentence. Every action is held behind a plain-English confirmation the user answers before the backend touches a relay.",
+      },
+      {
+        title: "Onto real hardware",
+        body:
+          "The ESP32 firmware, the four-channel relay board and the sensors came last. Polling turned out to flood the broker, so sensors were changed to publish only when their state actually changes.",
+      },
     ],
     technologies: {
       frontend: ["React Native", "Expo", "TypeScript"],
@@ -116,6 +150,28 @@ export const projects: Project[] = [
       "Appointment scheduling and hospital linking",
       "Fully async backend on SQLAlchemy 2.0 and asyncpg",
     ],
+    process: [
+      {
+        title: "Deciding to serve the model myself",
+        body:
+          "The commercial endpoints I tested could not hold a clinical conversation in Hausa, Igbo or Yoruba. Choosing N-ATLaS solved that and made model serving my problem rather than a vendor's.",
+      },
+      {
+        title: "Getting GPU inference affordable",
+        body:
+          "A triage platform cannot pay for an idle A10G overnight. The model runs on Modal with vLLM in a container that scales to zero. Cold starts were slow at first because weights were pulled over the network, so the weights moved into a persistent volume, and request concurrency lets one warm container serve several patients.",
+      },
+      {
+        title: "Giving an open-weight model tool calling",
+        body:
+          "N-ATLaS has no native function calling, so a conversation could describe booking an appointment but never book one. I defined a call protocol the model emits inside its generation, parsed those blocks out of the raw text, and executed them transactionally against PostgreSQL.",
+      },
+      {
+        title: "Building the clinical surfaces",
+        body:
+          "Patients, nurses and doctors see different views of the same triage data, behind role-based access on one fully async backend.",
+      },
+    ],
     technologies: {
       frontend: ["Next.js", "TypeScript"],
       backend: ["FastAPI", "SQLAlchemy 2.0", "asyncpg", "PyJWT", "Alembic"],
@@ -159,6 +215,33 @@ export const projects: Project[] = [
       "Synthetic telemetry generator with injected sensor noise",
       "Wokwi circuit simulation with potentiometer inputs and OLED output",
     ],
+    process: [
+      {
+        title: "Framing it as a time-series problem",
+        body:
+          "State of charge alone cannot tell a tricycle driven hard for the last minute from one driven smoothly. That ruled out a snapshot model and settled the input as a rolling 60-second window over ten telemetry features.",
+      },
+      {
+        title: "Generating the data",
+        body:
+          "No CAN-bus logs were available, so training data comes from a physics-based consumption model with sensor noise injected deliberately. This is the project's main limitation and the first thing worth replacing.",
+      },
+      {
+        title: "Searching inside a memory budget",
+        body:
+          "The architecture search was bounded by what could fit in roughly 120 KB of usable RAM, not by what scored best. KerasTuner ran Bayesian optimization over LSTM units, dropout and learning rate within that ceiling.",
+      },
+      {
+        title: "Shrinking the trained model",
+        body:
+          "Full-integer INT8 post-training quantization against a representative dataset cut the footprint by over 75 percent, and had the useful side effect of stripping graph operations that only exist in GPU builds of TensorFlow.",
+      },
+      {
+        title: "Getting it running on the device",
+        body:
+          "The firmware keeps a ring buffer of the trailing minute, scales inputs using the StandardScaler constants exported from training, and invokes the TFLite Micro interpreter once a second, driven by potentiometers and shown on an OLED in a Wokwi circuit.",
+      },
+    ],
     technologies: {
       frontend: ["Wokwi simulation", "SSD1306 OLED"],
       backend: ["TensorFlow", "Keras", "KerasTuner", "NumPy", "pandas"],
@@ -201,6 +284,28 @@ export const projects: Project[] = [
       "CLAHE contrast enhancement applied in LAB colour space",
       "Two-phase training: frozen backbone, then fine-tuning",
       "Inference latency and model-size benchmarks",
+    ],
+    process: [
+      {
+        title: "Fixing the comparison before training anything",
+        body:
+          "Comparative studies usually end up measuring the setup rather than the architecture. Every transfer model here is constructed by one shared builder, so the backbone is the only thing that changes between runs.",
+      },
+      {
+        title: "Implementing CBAM from scratch",
+        body:
+          "Channel attention through a shared bottleneck MLP, then spatial attention through a 7x7 convolution, written directly rather than pulled from a library so it could be injected at the same point in every architecture.",
+      },
+      {
+        title: "Preprocessing and two-phase training",
+        body:
+          "CLAHE contrast enhancement applied in LAB colour space, then training in two phases: a frozen backbone first, then fine-tuning.",
+      },
+      {
+        title: "Testing the results rather than eyeballing them",
+        body:
+          "Differences between model pairs go through McNemar tests instead of being declared on fourth-decimal accuracy gaps. Grad-CAM shows where each model actually looked, and latency and on-disk size are benchmarked next to accuracy so the cost of each gain is visible.",
+      },
     ],
     technologies: {
       frontend: ["Jupyter", "Matplotlib", "Seaborn"],
@@ -252,6 +357,28 @@ export const projects: Project[] = [
       "Multi-tenant, with data scoped per account",
       "Email and Google OAuth sign-in",
     ],
+    process: [
+      {
+        title: "Choosing one internal representation",
+        body:
+          "The decision that shaped everything else: every input format converges to a single text representation before any analysis runs. A photographed handwritten page and a typed document follow the same downstream path, so each feature is written once.",
+      },
+      {
+        title: "Handling the messy inputs",
+        body:
+          "Gemini Vision ingests images and PDFs directly, including handwriting, while officeparser covers Word, PowerPoint and Excel. Accepting only clean typed text would have solved the easy half of the problem and none of the real one.",
+      },
+      {
+        title: "Building the study loop",
+        body:
+          "Summary, key-concept extraction and quiz generation all run off the same parsed text, and the chat interface answers questions grounded in that material rather than general knowledge.",
+      },
+      {
+        title: "Accounts and persistence",
+        body:
+          "Email and Google sign-in through Neon Auth, with every note, quiz and conversation scoped to its account so a study session can be picked up later.",
+      },
+    ],
     technologies: {
       frontend: ["Next.js 16", "TypeScript", "Framer Motion"],
       backend: ["Drizzle ORM", "Neon Auth", "officeparser"],
@@ -296,6 +423,28 @@ export const projects: Project[] = [
       "Serverless API routes on Next.js",
       "Responsive across desktop and mobile",
     ],
+    process: [
+      {
+        title: "Treating geography as the primary axis",
+        body:
+          "A list of incident reports tells you far less than the same reports seen distributed across a city, so the interface was designed around the map rather than adding one to a table afterwards.",
+      },
+      {
+        title: "Carrying two mapping paradigms",
+        body:
+          "CesiumJS renders the 3D globe where spatial distribution is the point, and MapLibre with MapTiler tiles handles the flat-map cases where precision and load speed matter more. Keeping both meant watching the bundle carefully.",
+      },
+      {
+        title: "One data model underneath",
+        body:
+          "Reporting, tracking and analytics all read the same Prisma and PostgreSQL schema through serverless API routes, so a report never has to be reconciled across three representations.",
+      },
+      {
+        title: "The admin surface",
+        body:
+          "Alerts, analytics, communications and case tracking were built on top once the reporting flow was stable.",
+      },
+    ],
     technologies: {
       frontend: ["Next.js", "TypeScript", "Tailwind CSS", "CesiumJS", "MapLibre"],
       backend: ["Next.js API routes", "Prisma", "PostgreSQL"],
@@ -336,6 +485,23 @@ export const projects: Project[] = [
       "Persistent context and memory across sessions",
       "Sandboxed agent execution isolated from the core backend",
       "Voice and messaging entry points",
+    ],
+    process: [
+      {
+        title: "Designing for blast radius first",
+        body:
+          "Agents that run real work on a user's behalf need execution isolation, permission boundaries and cost control as architecture, not as a later hardening pass. Agents run sandboxed, with no direct reach into the core backend or its filesystem.",
+      },
+      {
+        title: "Staying a monolith on purpose",
+        body:
+          "Splitting into services before there are users to scale for would cost more than it returns, so the platform stays one deployable while it is small.",
+      },
+      {
+        title: "What is being built now",
+        body:
+          "Agent composition, long-running task execution, and context that persists across sessions. Repositories are private while this is in progress, so there is nothing public to link yet.",
+      },
     ],
     technologies: {
       frontend: ["Next.js", "TypeScript"],
