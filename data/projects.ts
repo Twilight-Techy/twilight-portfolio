@@ -34,8 +34,6 @@ export interface Project {
   technologies: ProjectTechnologies;
 }
 
-const PLACEHOLDER = "/placeholder.svg";
-
 export const projects: Project[] = [
   {
     id: 1,
@@ -226,9 +224,15 @@ export const projects: Project[] = [
       "Gemini Vision handles image and PDF ingestion directly, including handwritten pages, while officeparser extracts text from Word, PowerPoint and Excel files. Everything converges on one text representation before analysis, so a photograph of a handwritten page and a typed document follow the same downstream path. Conversations persist per note, so a study session can be resumed.",
     outcome:
       "Deployed and live, with multi-tenant accounts behind email and Google sign-in. Handwritten notes photographed on a phone come back as a structured summary, a concept list and a quiz.",
-    image: PLACEHOLDER,
-    coverImage: PLACEHOLDER,
-    images: [PLACEHOLDER],
+    image: "/images/projects/ruby-dashboard.png",
+    coverImage: "/images/projects/ruby-note-analysis.png",
+    images: [
+      "/images/projects/ruby-dashboard.png",
+      "/images/projects/ruby-create-note.png",
+      "/images/projects/ruby-note-analysis.png",
+      "/images/projects/ruby-quizzes.png",
+      "/images/projects/ruby-quiz.png",
+    ],
     tags: ["Next.js", "Gemini", "Neon Postgres", "Drizzle", "TypeScript", "OCR"],
     category: "fullstack",
     status: "Live",
