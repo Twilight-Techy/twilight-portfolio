@@ -98,11 +98,27 @@ export default function BlogPage({ allPosts }: { allPosts: any[] }) {
         {featuredPosts.length > 0 && (
           <div className="mb-16">
             <h2 className="text-2xl font-bold mb-6">Featured Articles</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div
+              className={
+                featuredPosts.length === 1
+                  ? "grid grid-cols-1"
+                  : "grid grid-cols-1 lg:grid-cols-2 gap-8"
+              }
+            >
               {featuredPosts.map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`}>
-                  <Card className="overflow-hidden h-full hover:border-primary/50 dark:hover:border-blue-500/50 transition-all duration-300">
-                    <div className="relative h-64 w-full overflow-hidden">
+                  <Card
+                    className={`overflow-hidden h-full hover:border-primary/50 dark:hover:border-blue-500/50 transition-all duration-300 ${
+                      featuredPosts.length === 1 ? "lg:flex" : ""
+                    }`}
+                  >
+                    <div
+                      className={`relative w-full overflow-hidden ${
+                        featuredPosts.length === 1
+                          ? "h-64 lg:h-auto lg:w-1/2 lg:min-h-[24rem]"
+                          : "h-64"
+                      }`}
+                    >
                       <Image
                         src={post.meta.coverImage || "/placeholder.svg"}
                         alt={post.meta.title}
@@ -115,7 +131,13 @@ export default function BlogPage({ allPosts }: { allPosts: any[] }) {
                         </Badge>
                       </div>
                     </div>
-                    <CardContent className="p-6">
+                    <CardContent
+                      className={`p-6 ${
+                        featuredPosts.length === 1
+                          ? "lg:w-1/2 lg:flex lg:flex-col lg:justify-center lg:p-10"
+                          : ""
+                      }`}
+                    >
                       <Badge
                         variant="outline"
                         className="mb-2 bg-primary/10 text-primary dark:bg-blue-500/10 dark:text-blue-400"
